@@ -1,0 +1,64 @@
+<h2>Add New Ticket</h2>
+
+<form #f="ngForm" (ngSubmit)="submit()" class="form-grid">
+
+  <!-- Company -->
+  <div>
+    <label>Company Name</label>
+    <select [(ngModel)]="ticket.company_id" name="company_id" required>
+      <option value="">Select Company</option>
+      <option *ngFor="let c of companies" [value]="c.company_id">{{ c.company_name }}</option>
+    </select>
+  </div>
+
+  <!-- Product -->
+  <div>
+    <label>Product</label>
+    <select [(ngModel)]="ticket.product_id" name="product_id" required>
+      <option value="">Select Product</option>
+      <option *ngFor="let p of products" [value]="p.product_id">{{ p.name }}</option>
+    </select>
+  </div>
+
+  <!-- Category -->
+  <div>
+    <label>Category</label>
+    <select [(ngModel)]="ticket.category_id" name="category_id" required>
+      <option [ngValue]="null">Select Category</option>
+      <option *ngFor="let c of categories" [ngValue]="c.category_id">{{ c.name }}</option>
+    </select>
+  </div>
+
+  <!-- Status -->
+  <div>
+    <label>Status</label>
+    <select [(ngModel)]="ticket.status_id" name="status_id" required>
+      <option value="">Select Status</option>
+      <option *ngFor="let s of statuses" [value]="s.id">{{ s.name }}</option>
+    </select>
+  </div>
+
+  <!-- Ticket Title -->
+  <div>
+    <label>Ticket Title</label>
+    <input type="text" [(ngModel)]="ticket.ticket_name" name="ticket_name" required />
+  </div>
+
+  <!-- Ticket Description with embedded image support -->
+  <div class="full-width">
+    <label>Ticket Description (You can paste or insert images below)</label>
+    <quill-editor 
+      [(ngModel)]="ticket.ticket_description"
+      name="ticket_description"
+      [modules]="modules"
+      [style]="{ height: '250px' }">
+    </quill-editor>
+  </div>
+
+  <!-- Submit & Cancel -->
+  <div class="form-actions full-width">
+    <button type="submit" [disabled]="!f.valid">Submit</button>
+    <button type="button" (click)="close.emit()">Cancel</button>
+  </div>
+
+</form>

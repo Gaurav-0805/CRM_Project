@@ -1,0 +1,22 @@
+<ag-grid-angular
+  *ngIf="dateRange.start && dateRange.end"
+  class="ag-theme-alpine"
+  style="width: 100%; height: 500px;"
+  [rowData]="invoices"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [modules]="modules"
+  (rowClicked)="onRowClicked($event)">
+</ag-grid-angular>
+
+<div *ngIf="!dateRange.start || !dateRange.end" class="no-data-message">
+  <p>Please select a start and end date to view invoices.</p>
+</div>
+
+
+  <!-- ✅ Add Invoice Modal -->
+  <app-add-invoice
+    *ngIf="showAddInvoice"
+    (close)="closeAddInvoice()"
+    (invoiceAdded)="handleInvoiceAdded($event)">
+  </app-add-invoice>

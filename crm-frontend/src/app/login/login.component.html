@@ -1,0 +1,35 @@
+<!-- Step 1: Show Company Key Input First -->
+<app-company-key
+  *ngIf="!showLoginForm"
+  (keyChanged)="onCompanyKeyReceived($event)">
+</app-company-key>
+
+<!-- Step 2: Show Login Form -->
+<div class="container" *ngIf="showLoginForm">
+  <div class="card">
+    <h2>Login</h2>
+
+    <form (ngSubmit)="login()">
+      <input
+        type="text"
+        [(ngModel)]="username"
+        name="username"
+        placeholder="Username"
+        required
+      />
+
+      <input
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Password"
+        required
+      />
+
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+      <button type="submit">Login</button>
+      <button type="button" class="secondary" (click)="showLoginForm = false">Back</button>
+    </form>
+  </div>
+</div>

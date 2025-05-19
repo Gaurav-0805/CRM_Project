@@ -1,0 +1,166 @@
+<div class="admin-container">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar-compact">
+    <!-- Customers -->
+    <div *ngIf="userRole === 'Admin' || userRole === 'Support' || userRole === 'Customer'"
+         class="nav-item"
+         routerLink="customers"
+         routerLinkActive="active">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M17 20h5v-2a4 4 0 00-4-4h-1" />
+        <path d="M9 20H4v-2a4 4 0 014-4h1" />
+        <circle cx="9" cy="7" r="4" />
+        <circle cx="17" cy="7" r="4" />
+      </svg>
+      <span>Customers</span>
+    </div>
+
+    <!-- Tickets -->
+    <div *ngIf="userRole !== 'Guest'"
+         class="nav-item"
+         routerLink="tickets"
+         routerLinkActive="active">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M4 7h16M4 17h16M4 7v10a2 2 0 002 2h12a2 2 0 002-2V7" />
+      </svg>
+      <span>Tickets</span>
+    </div>
+
+    <!-- BRDs -->
+    <div *ngIf="userRole !== 'Guest'"
+         class="nav-item"
+         routerLink="brds"
+         routerLinkActive="active">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M4 4h16v16H4z" />
+        <path d="M4 9h16" />
+        <path d="M9 4v5" />
+      </svg>
+      <span>BRDs</span>
+    </div>
+
+    <!-- Invoices -->
+    <div *ngIf="userRole === 'Admin' || userRole === 'Customer'"
+         class="nav-item"
+         routerLink="invoices"
+         routerLinkActive="active">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M9 14l6-6M15 14H9V8" />
+        <path d="M4 4h16v16H4z" />
+      </svg>
+      <span>Invoices</span>
+    </div>
+
+    <!-- Payments -->
+    <div *ngIf="userRole === 'Admin' || userRole === 'Customer'"
+         class="nav-item"
+         routerLink="payments"
+         routerLinkActive="active">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M12 8v8m-4-4h8" />
+        <circle cx="12" cy="12" r="10" />
+      </svg>
+      <span>Payments</span>
+    </div>
+    <!-- Reports -->
+<div *ngIf="userRole === 'Admin'" class="nav-item has-submenu" (click)="isReportsOpen = !isReportsOpen">
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path d="M3 3h18v18H3z" stroke-width="2" />
+    <path d="M3 9h18M9 21V9" stroke-width="2" />
+  </svg>
+  <span>Reports</span>
+
+  <!-- Toggle Submenu -->
+  <div class="submenu" *ngIf="isReportsOpen">
+    <a routerLink="reports/new-business" routerLinkActive="active">New Business</a>
+    <a routerLink="reports/payment-due" routerLinkActive="active">Payment Due</a>
+    <a routerLink="reports/invoice-due" routerLinkActive="active">Invoice Due Report</a>
+    <a routerLink="reports/ledger" routerLinkActive="active">Ledger Report</a>
+  </div>
+</div>
+
+
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="content">
+    <!-- 🔘 Modals -->
+    <div *ngIf="showAddTicketForm && pageTitle === 'Tickets'" class="modal-overlay">
+      <div class="modal-content">
+        <app-add-ticket (ticketAdded)="onTicketAdded($event)" (close)="showAddTicketForm = false"></app-add-ticket>
+      </div>
+    </div>
+
+    <div *ngIf="showAddInvoiceForm && pageTitle === 'Invoices'" class="modal-overlay">
+      <div class="modal-content">
+        <app-add-invoice (invoiceAdded)="onInvoiceAdded($event)" (close)="showAddInvoiceForm = false"></app-add-invoice>
+      </div>
+    </div>
+
+    <div *ngIf="showAddBrdForm && pageTitle === 'BRDs'" class="modal-overlay">
+      <div class="modal-content">
+        <app-add-brd (brdAdded)="onBrdAdded($event)" (close)="showAddBrdForm = false"></app-add-brd>
+      </div>
+    </div>
+
+    <!-- Top Section (hidden on detail pages) -->
+    <div *ngIf="!isDetailPage" class="section-header-wrapper">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 class="page-title">{{ pageTitle }}</h2>
+        <button class="logout-button" (click)="logout()">Logout</button>
+      </div>
+
+      <hr class="section-divider" />
+
+      <!-- Tabs + Filters -->
+      <div class="tabs-header-row">
+        <ul class="tabs below">
+          <li *ngFor="let tab of tabs"
+              [class.active]="currentTab === tab"
+              (click)="setTab(tab)">
+            {{ tab }}
+          </li>
+        </ul>
+
+        <div class="filters-row">
+          <!-- 🔍 Search -->
+          <div class="search-container">
+            <input type="text"
+                   class="search-input"
+                   placeholder="Search"
+                   [(ngModel)]="searchText"
+                   (input)="onSearch()" />
+          </div>
+
+          <!-- 📅 Date Range -->
+          <div class="date-picker-wrapper">
+            <mat-label>Date</mat-label>
+            <mat-date-range-input [formGroup]="dateRangeForm" [rangePicker]="picker">
+              <input matStartDate formControlName="start" />
+              <input matEndDate formControlName="end" />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </div>
+
+          <!-- ✅ GO Button -->
+          <button mat-raised-button class="go-button" (click)="applyDateFilter()">GO</button>
+
+          <!-- ➕ Add Button -->
+          <button *ngIf="showAddButton"
+                  mat-raised-button
+                  color="primary"
+                  class="add-button"
+                  (click)="openAddModal()">
+            + {{ addButtonText }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Routed Pages -->
+    <div class="content-scroll">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

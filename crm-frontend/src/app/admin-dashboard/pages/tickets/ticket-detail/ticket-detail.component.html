@@ -1,0 +1,115 @@
+<div *ngIf="ticket" class="ticket-detail-container">
+
+  <!-- ✅ Header -->
+  <div class="ticket-detail-header">
+    <div class="left">
+      <i class="fa fa-arrow-left back-icon" (click)="goBack()"></i>
+      <h2>Ticket Details - {{ ticket.code || 'TKT-' + ticket.id }}</h2>
+    </div>
+    <div class="right">
+      <span class="status-pill" [ngClass]="ticket.status?.toLowerCase()">{{ ticket.status }}</span>
+
+      <button *ngIf="ticket.status !== 'Resolved'" class="resolve-btn" (click)="markAsResolved()">
+        ✅ Resolve Ticket
+      </button>
+
+      <button class="back-btn" (click)="goBack()">Back</button>
+    </div>
+  </div>
+
+  <!-- ✅ Main Layout -->
+  <div class="ticket-main-content">
+
+    <!-- 🔹 Left Panel -->
+    <div class="main-panel">
+
+      <!-- Ticket Info -->
+      <div class="info-box">
+        <h3>Ticket Information</h3>
+        <div class="info-grid">
+          <div><label>Customer Name</label><p>{{ ticket.customer_name }}</p></div>
+          <div><label>Company Name</label><p>{{ ticket.company_name }}</p></div>
+          <div><label>Product</label><p>{{ ticket.product_name }}</p></div>
+          <div><label>Category</label><p>{{ ticket.category }}</p></div>
+          <div><label>Priority Level</label><p>High</p></div>
+        </div>
+      </div>
+
+     <!-- Description & Screenshots -->
+<div class="info-box">
+  <h3>Description</h3>
+  <div class="ticket-description" [innerHTML]="ticket.ticket_description || '-'"></div>
+
+  <!-- Screenshot Grid (if any) -->
+  <div class="screenshot-grid" *ngIf="ticket.screenshots?.length">
+    <button
+      type="button"
+      *ngFor="let shot of ticket.screenshots"
+      class="screenshot-button"
+      (click)="openPreview(shot.url)">
+      <img [src]="shot.url" [alt]="shot.name" class="screenshot-img" />
+    </button>
+  </div>
+</div>
+
+
+    </div>
+
+    <!-- 🔹 Right Panel -->
+    <div class="side-panel">
+
+      <!-- Assignment Details -->
+      <div class="side-box">
+        <h4>Assignment Details</h4>
+        <div class="avatar-name">
+          <div class="avatar-circle"></div>
+          <div>
+            <strong>{{ ticket.assigned_to_name || '-' }}</strong><br />
+            <small>Engineering</small>
+          </div>
+        </div>
+        <div class="side-meta">
+          <label>Created At</label>
+          <p>{{ ticket.created_at | date:'yyyy-MM-dd hh:mm a' }}</p>
+          <label>Updated At</label>
+          <p>{{ ticket.updated_at | date:'yyyy-MM-dd hh:mm a' }}</p>
+          <label>Resolved At</label>
+          <p>{{ ticket.resolved_at ? (ticket.resolved_at | date:'yyyy-MM-dd hh:mm a') : '-' }}</p>
+        </div>
+      </div>
+<!-- Timeline -->
+<div class="side-box">
+  <h4>Timeline</h4>
+  <ul class="timeline">
+    <li *ngFor="let item of timeline; let i = index" [ngClass]="{ 'first': i === 0, 'last': i === timeline.length - 1 }">
+      <div class="dot"></div>
+      <div class="timeline-content">
+        <strong>{{ item.title }}</strong><br />
+        <span>{{ item.time | date:'yyyy-MM-dd hh:mm a' }}</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+      <!-- Escalate -->
+      <div *ngIf="userRole === 'Support' && ticket.status?.toLowerCase() === 'open' && !ticket.assigned_to_name" class="side-box">
+        <label for="developer">Escalate To:</label>
+        <select id="developer" [(ngModel)]="selectedDeveloperId">
+          <option value="">Select Developer</option>
+          <option *ngFor="let dev of developers" [value]="dev.id">{{ dev.name }}</option>
+        </select>
+        <button class="escalate-btn" (click)="escalateTicket()" [disabled]="!selectedDeveloperId">Escalate</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ✅ Image Preview Modal -->
+  <div class="image-modal" *ngIf="previewUrl" (click)="closePreview()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <img [src]="previewUrl" class="preview-image" />
+      <button class="close-btn" (click)="closePreview()">✖</button>
+    </div>
+  </div>
+
+</div> <!-- ✅ Final closing tag for the wrapper -->

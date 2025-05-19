@@ -1,0 +1,206 @@
+.payment-detail-container {
+  padding: 24px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f7fb;
+}
+
+/* 🔷 Page Title */
+.page-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #2e3b4e;
+  margin: 0;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid #dcdcdc;
+  margin: 20px 0;
+}
+
+/* 🔷 Buttons */
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.pay-now-btn,
+.close-button {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pay-now-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.pay-now-btn:hover {
+  background-color: #0056b3;
+}
+
+.close-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.close-button:hover {
+  background-color: #c0392b;
+}
+
+/* 🔷 Card Layout */
+.payment-info-card,
+.invoices-card,
+.recent-transactions {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+  margin-bottom: 24px;
+}
+
+.payment-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  font-size: 15px;
+  color: #34495e;
+}
+
+.invoices-card h3,
+.recent-transactions h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 16px;
+}
+
+/* 🔷 AG Grid */
+.ag-theme-alpine {
+  --ag-font-size: 13px;
+  --ag-header-background-color: #f6f9fc;
+  --ag-header-foreground-color: #2c3e50;
+  --ag-row-hover-color: #f0f7ff;
+  --ag-odd-row-background-color: #fbfcfd;
+  --ag-border-color: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 🔷 Pay Now Card */
+.pay-now-card {
+  background-color: #eaf5ff;
+  border: 1px solid #cce3fa;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 30px;
+}
+
+.pay-now-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #1565c0;
+}
+
+.pay-now-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  font-size: 14px;
+  color: #55626f;
+  margin-bottom: 20px;
+}
+
+.make-payment-btn {
+  padding: 12px 24px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.make-payment-btn:hover {
+  background-color: #218838;
+}
+
+/* 🔷 Status Styles */
+.status-paid {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.status-failed {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+}
+
+/* Button Styling */
+.make-payment-btn, .close-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.make-payment-btn:hover, .close-button:hover {
+  background-color: #0056b3;
+}
+
+.modal-content button:nth-child(5) {
+  background-color: #dc3545;
+}
+
+.modal-content button:nth-child(5):hover {
+  background-color: #c82333;
+}
+

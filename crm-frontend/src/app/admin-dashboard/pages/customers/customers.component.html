@@ -1,0 +1,17 @@
+<div class="customer-container">
+  <!-- 📊 Data Table -->
+ <ag-grid-angular
+  *ngIf="dateRange.start && dateRange.end"
+  class="ag-theme-alpine"
+  style="width: 100%; height: 500px;"
+  [rowData]="customers"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [modules]="modules"
+  (rowClicked)="onRowClicked($event)">
+</ag-grid-angular>
+
+<div *ngIf="!dateRange.start || !dateRange.end" class="no-data-message">
+  <p>Please select a start and end date to view customers.</p>
+</div>
+</div>

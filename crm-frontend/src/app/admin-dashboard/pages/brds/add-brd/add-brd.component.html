@@ -1,0 +1,58 @@
+<div class="brd-form-container">
+  <h2>Create Business Requirements Document</h2>
+
+  <form name="brdForm" (ngSubmit)="submitBrd()" #brdForm="ngForm">
+    
+    <!-- Title -->
+    <label for="title">Title</label>
+    <input
+      id="title"
+      type="text"
+      [(ngModel)]="brd.title"
+      name="title"
+      required
+    />
+
+    <!-- Description -->
+    <label for="description">Description</label>
+    <quill-editor
+      id="description"
+      [(ngModel)]="brd.description"
+      name="description"
+      [style]="{ height: '250px' }"
+      [modules]="quillModules"
+      (onEditorCreated)="onEditorCreated($event)">
+    </quill-editor>
+
+    <!-- PDF Upload for Quill Embed -->
+    <label for="pdf-upload">Insert PDF Link in Description</label>
+    <input
+      id="pdf-upload"
+      type="file"
+      (change)="onPdfSelected($event)"
+      accept="application/pdf"
+    />
+    <small>The uploaded PDF will be added as a link inside the description field.</small>
+
+    <!-- Product -->
+    <label for="product">Product *</label>
+    <select
+      id="product"
+      [(ngModel)]="brd.product_id"
+      name="product_id"
+      required>
+      <option value="">-- Select Product --</option>
+      <option *ngFor="let p of products" [value]="p.product_id">{{ p.name }}</option>
+    </select>
+
+    <!-- Buttons -->
+    <div class="btn-group">
+      <button type="button" (click)="close.emit()">Cancel</button>
+      <button
+        type="submit"
+        [disabled]="brdForm.invalid || isSubmitting">
+        Submit BRD
+      </button>
+    </div>
+  </form>
+</div>

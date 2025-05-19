@@ -1,0 +1,21 @@
+<div class="report-container">
+  <!-- Loading & Error States -->
+  <div *ngIf="loading" class="loading">Loading...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <!-- AG Grid Table -->
+  <ag-grid-angular
+    class="ag-theme-alpine"
+    style="width: 100%; height: 500px;"
+    *ngIf="!loading && customers.length > 0"
+    [rowData]="customers"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [animateRows]="true"
+  ></ag-grid-angular>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && customers.length === 0" class="empty">
+    No new onboarding customers found in the selected date range.
+  </div>
+</div>

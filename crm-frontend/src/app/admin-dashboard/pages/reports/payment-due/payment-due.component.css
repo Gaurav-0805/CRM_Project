@@ -1,0 +1,78 @@
+:host {
+  display: block;
+  padding: 16px;
+  background-color: #f1f6f5;
+}
+
+/* Outer container */
+.report-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Loading, Error, Empty States */
+.loading,
+.error,
+.empty {
+  font-size: 15px;
+  color: #555;
+  margin-top: 12px;
+  padding-left: 8px;
+}
+
+.error {
+  color: #d32f2f;
+  font-weight: 500;
+}
+
+/* AG Grid styling */
+.ag-theme-alpine {
+  width: 100%;
+  height: calc(100vh - 180px);
+  box-sizing: border-box;
+  font-size: 14px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ag-root-wrapper,
+.ag-root,
+.ag-body-viewport,
+.ag-center-cols-clipper {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+.ag-theme-alpine .ag-header-cell-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.ag-theme-alpine .ag-cell {
+  white-space: normal;
+  word-break: break-word;
+}
+.ag-theme-alpine {
+  font-family: 'Segoe UI', sans-serif;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.report-wrapper {
+  padding: 24px;
+}
+
+.loading,
+.error,
+.no-data-message {
+  text-align: center;
+  font-size: 16px;
+  padding: 20px;
+  color: #555;
+}
+
+.grid-wrapper {
+  margin-top: 16px;
+}

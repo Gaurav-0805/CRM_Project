@@ -1,0 +1,81 @@
+<div class="payment-detail-container">
+  <div class="header-row" style="display: flex; justify-content: space-between; align-items: center;">
+    <h2 class="page-title">Account Settlements</h2>
+    <div class="actions">
+      <button class="pay-now-btn" (click)="togglePayNow()">Pay Now</button>
+      <button class="close-button" (click)="goBack()">Close</button>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- Payment Info and Invoices - Show when Pay Now card is hidden -->
+  <ng-container *ngIf="!showPayNowUI">
+    <div class="payment-info-card">
+      <div class="payment-info-grid">
+        <div><strong>Payment ID:</strong> {{ paymentData?.payment_id }}</div>
+        <div><strong>Payment Method:</strong> {{ paymentData?.payment_method }}</div>
+        <div><strong>Date:</strong> {{ paymentData?.payment_date | date: 'dd/MM/yyyy' }}</div>
+        <div><strong>Amount:</strong> ₹{{ paymentData?.amount_paid }}</div>
+        <div><strong>Status:</strong> {{ paymentData?.payment_status }}</div>
+      </div>
+    </div>
+
+    <div class="invoices-card">
+      <h3>Invoices</h3>
+      <ag-grid-angular
+        class="ag-theme-alpine"
+        style="width: 100%; height: 250px;"
+        [rowData]="invoiceData"
+        [columnDefs]="invoiceColumnDefs"
+        [defaultColDef]="defaultColDef">
+      </ag-grid-angular>
+    </div>
+  </ng-container>
+
+  <!-- Overlay and Pay Now Card - Show when Pay Now is toggled ON -->
+  <ng-container *ngIf="showPayNowUI">
+    <!-- Overlay dims background -->
+    <div class="overlay" (click)="togglePayNow()"></div>
+
+    <!-- Floating Pay Now Card -->
+    <div class="pay-now-card">
+      <h3 class="pay-now-title">Pay Now</h3>
+      <div class="pay-now-summary">
+        <div><strong>Latest Bill Amount:</strong> ₹{{ paymentSummary.latestBillAmount | number: '1.2-2' }}</div>
+        <div><strong>Advance Amount:</strong> ₹{{ paymentSummary.advanceAmount }}</div>
+        <div><strong>Outstanding:</strong> ₹{{ paymentSummary.outstanding }}</div>
+        <div><strong>Payment Amount:</strong> ₹{{ paymentSummary.paymentAmount }}</div>
+      </div>
+      <button class="make-payment-btn" (click)="showPaymentModal()">Make Payment</button>
+
+      <div class="recent-payments">
+        <h4>Recent Transactions</h4>
+        <ag-grid-angular
+          class="ag-theme-alpine"
+          style="width: 100%; height: 300px;"
+          [rowData]="transactionData"
+          [columnDefs]="transactionColumnDefs"
+          [defaultColDef]="defaultColDef">
+        </ag-grid-angular>
+      </div>
+
+      <!-- Payment Modal -->
+      <div *ngIf="showPaymentModalUI" class="modal-overlay">
+        <div class="modal-content">
+          <h4>Scan & Pay</h4>
+          <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://yourpaymentlink.com&size=200x200" alt="QR Code" class="qr-image" />
+          <p><a href="https://yourpaymentlink.com" target="_blank">Click here to open payment link</a></p>
+
+          <div class="manual-entry" style="margin-top: 20px; text-align: left;">
+            <label for="amount"><strong>Enter Amount to Pay:</strong></label>
+            <input id="amount" type="number" [(ngModel)]="enteredAmount" placeholder="Enter amount in ₹" style="width: 100%; margin: 8px 0; padding: 6px;" />
+            <button class="make-payment-btn" (click)="submitPayment()" style="margin-top: 10px;">Submit Payment</button>
+          </div>
+
+          <button class="close-button" (click)="closePaymentModal()" style="margin-top: 20px;">Close</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

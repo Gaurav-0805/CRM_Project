@@ -1,0 +1,147 @@
+<div class="brd-detail-container" *ngIf="brd">
+  <!-- Header -->
+  <div class="brd-header">
+    <div class="brd-title-section">
+      <h2>Business Requirements Document</h2>
+    </div>
+    <div class="brd-actions">
+      <button class="edit-btn" (click)="openEditModal()">
+        <i class="fa fa-edit"></i> Edit Document
+      </button>
+    </div>
+  </div>
+
+  <p class="updated-at">Last updated {{ brd.updated_at | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+
+  <!-- Top Info -->
+  <div class="brd-top-section">
+    <div class="card document-details">
+      <div class="card-header">
+        <h4>Document Details</h4>
+        <div class="inline-badges">
+          <label>Priority:</label>
+          <span class="badge priority high">High</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <label>BRD ID</label>
+        <p>{{ brd.id }}</p>
+
+        <label>Title</label>
+        <p>{{ brd.title }}</p>
+
+        <label>Status</label>
+        <p>{{ brd.status_name }}</p>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h4>Additional Information</h4>
+      <div class="info-row" *ngIf="brd.company_name">
+        <label>Company</label>
+        <span>{{ brd.company_name }}</span>
+      </div>
+      <div class="info-row" *ngIf="brd.product_name">
+        <label>Product</label>
+        <span>{{ brd.product_name }}</span>
+      </div>
+      <div class="info-row">
+        <label>Department</label>
+        <span>Engineering</span>
+      </div>
+      <div class="info-row">
+        <label>Assignee</label>
+        <span>{{ brd.assigned_to_name || '-' }}</span>
+      </div>
+      <div class="info-row">
+        <label>Created At</label>
+        <span>{{ brd.created_at | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+      </div>
+      <div class="info-row">
+        <label>Updated At</label>
+        <span>{{ brd.updated_at | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Developer Assignment -->
+  <div *ngIf="userRole === 'Support' && brd.status_name === 'Approved' && !brd.assigned_to_name" class="assign-section">
+    <label for="developerSelect">Assign to Developer</label>
+    <div class="assign-controls">
+      <select id="developerSelect" [(ngModel)]="selectedDeveloperId">
+        <option value="" disabled selected>Select developer</option>
+        <option *ngFor="let dev of developers" [value]="dev.id">{{ dev.name }}</option>
+      </select>
+      <button (click)="assignToDeveloper()">Assign</button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="brd-tab-header">
+    <div class="tab-item" [class.active]="activeTab === 'tasks'" (click)="onTabChange('tasks')">Tasks</div>
+    <div class="tab-item" [class.active]="activeTab === 'descriptions'" (click)="onTabChange('descriptions')">Description</div>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <ng-container *ngIf="activeTab === 'tasks'">
+      <ag-grid-angular
+        class="ag-theme-alpine"
+        style="width: 100%; height: 400px;"
+        [rowData]="brdTasks"
+        [columnDefs]="taskColumnDefs"
+        [defaultColDef]="{ resizable: true, sortable: true, filter: true }"
+        [modules]="modules"
+        domLayout="autoHeight">
+      </ag-grid-angular>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'descriptions'">
+      <div class="description-tab-content">
+        <h4>Description</h4>
+        <div [innerHTML]="brd.description"></div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" *ngIf="isEditModalOpen">
+    <div class="modal">
+      <h3>Edit BRD Details</h3>
+      <form (ngSubmit)="saveChanges()">
+        <div class="form-row">
+          <label>Title</label>
+          <input type="text" [(ngModel)]="editForm.title" name="title" required />
+        </div>
+
+        <div class="form-row">
+          <label>Description</label>
+          <quill-editor
+            [(ngModel)]="editForm.description"
+            name="description"
+            style="height: 250px;"
+            [modules]="quillModules"
+            (onEditorCreated)="onEditorCreated($event)">
+          </quill-editor>
+
+          <input type="file" (change)="onPdfSelected($event)" accept="application/pdf" style="margin-top: 10px;" />
+          <small>You can upload and link PDF files here. The link will appear inside the description editor.</small>
+        </div>
+
+        <div class="form-row">
+          <label>Status</label>
+          <select [(ngModel)]="editForm.status_name" name="status">
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" (click)="closeEditModal()">Cancel</button>
+          <button type="submit">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

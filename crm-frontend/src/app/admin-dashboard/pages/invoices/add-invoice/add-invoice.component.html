@@ -1,0 +1,58 @@
+<!-- 🟦 Modal Overlay -->
+<div class="modal-overlay">
+  <div class="modal-box">
+    
+    <!-- 🟦 Modal Header -->
+    <div class="modal-header">
+      <h2>Create New Invoice</h2>
+      <button type="button" class="close-button" (click)="close.emit()">×</button>
+    </div>
+
+    <!-- 🟦 Invoice Form -->
+    <form (ngSubmit)="submit()" class="form-grid">
+
+      <!-- Company Name Dropdown -->
+      <div>
+        <label for="company_id">Company Name</label>
+        <select 
+          id="company_id"
+          name="company_id"
+          [(ngModel)]="invoice.company_id"
+          required>
+          <option value="">Select Company</option>
+          <option *ngFor="let c of companies" [value]="c.company_id">{{ c.company_name }}</option>
+        </select>
+      </div>
+
+      <!-- Amount Input -->
+      <div>
+        <label for="amount">Amount</label>
+        <input 
+          type="number"
+          id="amount"
+          name="amount"
+          [(ngModel)]="invoice.amount"
+          placeholder="₹ 0.00"
+          required />
+      </div>
+
+      <!-- Due Date Input -->
+      <div>
+        <label for="due_date">Due Date</label>
+        <input 
+          type="date"
+          id="due_date"
+          name="due_date"
+          [(ngModel)]="invoice.due_date"
+          required />
+      </div>
+
+      <!-- 🟦 Form Action Buttons -->
+      <div class="form-actions">
+        <button type="button" class="cancel-button" (click)="close.emit()">Cancel</button>
+        <button type="submit" class="primary-button">Submit Invoice</button>
+      </div>
+
+    </form>
+  </div>
+</div>

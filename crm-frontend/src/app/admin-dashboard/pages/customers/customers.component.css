@@ -1,0 +1,57 @@
+.customers-wrapper {
+  padding: 20px;
+  background-color: #f9f9f9;
+  height: calc(100vh - 60px);
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
+  padding: 16px;
+  background-color: #f1f6f5;
+}
+
+.top-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.add-btn {
+  padding: 8px 16px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  width: 500px;
+  max-width: 90%;
+}
+
+.no-data-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px; /* Adjust based on your layout */
+  font-size: 18px;
+  color: #555;
+  font-weight: 500;
+  text-align: center;
+}

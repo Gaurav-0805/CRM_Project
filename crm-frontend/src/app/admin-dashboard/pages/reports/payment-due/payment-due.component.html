@@ -1,0 +1,27 @@
+<div class="report-wrapper">
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && error" class="error">{{ error }}</div>
+
+  <!-- Grid Display -->
+  <div class="grid-wrapper" *ngIf="!loading && !error && rowData.length > 0">
+   <ag-grid-angular
+  class="ag-theme-alpine"
+  style="width: 100%; height: 600px;"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [animateRows]="true">
+</ag-grid-angular>
+
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && !error && rowData.length === 0" class="no-data-message">
+    No pending payments found in the selected date range.
+  </div>
+
+</div>

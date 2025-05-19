@@ -1,0 +1,230 @@
+.customer-page {
+  font-family: 'Segoe UI', sans-serif;
+  padding: 24px;
+  background-color: #f8fafc;
+}
+
+/* 🔹 Header Section */
+.header {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.profile-box {
+  flex-shrink: 0;
+}
+
+.profile-placeholder {
+  width: 200px;
+  height: 100px;
+  background: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed #ccc;
+  font-size: 14px;
+  color: #6b7280;
+  border-radius: 8px;
+}
+
+.profile-info h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.status.active {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.status.inactive {
+  background-color: #e0e7ff;
+  color: #1e40af;
+}
+
+.grid-info {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(100px, 1fr));
+  gap: 12px;
+  font-size: 14px;
+  color: #374151;
+  margin-top: 10px;
+}
+
+.grid-info div {
+  line-height: 1.4;
+}
+
+/* 🔹 Tabs */
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin: 24px 0 12px;
+  border-bottom: 1px solid #e5e7eb;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 6px;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  padding: 10px 4px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.tab.active {
+  color: #111827;
+  border-bottom: 3px solid #3b82f6;
+}
+
+/* 🔹 Detail Boxes */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.box {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+.box h4 {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #111827;
+}
+
+.box p,
+.box ul {
+  font-size: 14px;
+  color: #374151;
+  margin: 6px 0;
+}
+
+/* 🔹 AG Grid Table Styling */
+.ag-theme-alpine {
+  --ag-font-size: 13px;
+  --ag-header-background-color: #f3f4f6;
+  --ag-odd-row-background-color: #ffffff;
+  --ag-row-hover-color: #f9fafb;
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.ag-root-wrapper {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+/* Header Cells */
+.ag-header-cell, .ag-header-group-cell {
+  background-color: #f3f4f6 !important;
+  font-weight: 600;
+  color: #111827;
+  text-align: left;
+  padding-left: 8px;
+}
+
+/* Table Cells */
+.ag-cell {
+  color: #374151;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center;
+  display: flex;
+  padding-left: 8px;
+  font-size: 13px;
+}
+
+/* Row height and alignment */
+.ag-row {
+  line-height: 36px !important;
+  min-height: 36px !important;
+}
+
+.ag-row-even {
+  background-color: #ffffff;
+}
+
+.ag-row-hover {
+  background-color: #f9fafb !important;
+}
+
+/* Fix: Prevent extra right margin/empty column */
+.ag-center-cols-clipper, 
+.ag-center-cols-container {
+  padding-right: 0 !important;
+}
+
+/* 🔹 Grid Scroll Container */
+.grid-container {
+  margin-top: 10px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* 🔹 List Styling */
+ul {
+  padding-left: 16px;
+  margin: 0;
+}
+
+ul li {
+  list-style: none;
+  margin: 4px 0;
+}
+
+/* 🔹 Responsive Behavior */
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .grid-info {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .tabs {
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .box {
+    padding: 12px;
+  }
+
+  .ag-cell, .ag-header-cell {
+    font-size: 12px;
+    padding-left: 6px;
+  }
+}
+
+.box * {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}

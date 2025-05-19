@@ -1,0 +1,123 @@
+<div class="customer-page">
+  <!-- 🔹 Header Section -->
+  <div class="header">
+    <div class="profile-box">
+      <div class="profile-placeholder">400 x 200</div>
+    </div>
+
+    <div class="profile-info">
+      <h2>{{ customer?.company_name || 'N/A' }}</h2>
+      <span class="status" [ngClass]="customer?.project_status === 'Inactive' ? 'inactive' : 'active'">
+        {{ customer?.project_status || 'Active' }}
+      </span>
+
+      <div class="grid-info">
+        <div><strong>Code</strong><br>{{ customer?.company_id || 'N/A' }}</div>
+        <div><strong>Type</strong><br>{{ customer?.type || 'Wholesale' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 Tabs Navigation -->
+  <nav class="tabs">
+    <div class="tab" [class.active]="selectedTab === Tabs.Overview" (click)="setTab(Tabs.Overview)">Overview</div>
+    <div class="tab" [class.active]="selectedTab === Tabs.Invoices" (click)="setTab(Tabs.Invoices)">Invoices</div>
+    <div class="tab" [class.active]="selectedTab === Tabs.Payments" (click)="setTab(Tabs.Payments)">Payments</div>
+    <div class="tab" [class.active]="selectedTab === Tabs.Tickets" (click)="setTab(Tabs.Tickets)">Tickets</div>
+    <div class="tab" [class.active]="selectedTab === Tabs.Subscriptions" (click)="setTab(Tabs.Subscriptions)">Subscriptions</div>
+  </nav>
+
+  <!-- 🔹 Overview Tab -->
+  <div *ngIf="selectedTab === Tabs.Overview" class="detail-grid">
+    <div class="box">
+      <h4>Contact Details</h4>
+      <p><strong>Contact Person</strong><br>{{ customer?.contact_person || 'N/A' }}</p>
+      <p><strong>Phone</strong><br>{{ customer?.phone || 'N/A' }}</p>
+      <p><strong>Email</strong><br>{{ customer?.email || 'N/A' }}</p>
+    </div>
+
+    <div class="box">
+      <h4>Address</h4>
+      <p>{{ customer?.address || 'N/A' }}</p>
+    </div>
+
+    <div class="box">
+      <h4>Finance</h4>
+      <p><strong>Credit Limit:</strong> ₹{{ formatNumber(customer?.credit_limit) }}</p>
+      <p><strong>Outstanding:</strong> ₹{{ formatNumber(outstandingAmount) }}</p>
+      <p><strong>GSTIN:</strong> {{ customer?.gstin || 'N/A' }}</p>
+    </div>
+  </div>
+
+  <!-- 🔹 Invoices Tab -->
+  <div *ngIf="selectedTab === Tabs.Invoices" class="box">
+    <h4>Invoices</h4>
+    <div *ngIf="invoices.length === 0">No invoices found for this customer.</div>
+    <ag-grid-angular
+      *ngIf="invoices.length > 0"
+      class="ag-theme-alpine"
+      style="width: 100%;"
+      [modules]="modules"
+      [rowData]="invoices"
+      [columnDefs]="invoiceColumnDefs"
+      [pagination]="true"
+      [defaultColDef]="defaultColDef"
+      domLayout="autoHeight"
+      (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+  </div>
+
+  <!-- 🔹 Payments Tab -->
+  <div *ngIf="selectedTab === Tabs.Payments" class="box">
+    <h4>Payments</h4>
+    <div *ngIf="payments.length === 0">No payment records found.</div>
+    <ag-grid-angular
+      *ngIf="payments.length > 0"
+      class="ag-theme-alpine"
+      style="width: 100%;"
+      [modules]="modules"
+      [rowData]="payments"
+      [columnDefs]="paymentColumnDefs"
+      [pagination]="true"
+      [defaultColDef]="defaultColDef"
+      domLayout="autoHeight"
+      (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+  </div>
+
+  <!-- 🔹 Tickets Tab -->
+  <div *ngIf="selectedTab === Tabs.Tickets" class="box">
+    <h4>Tickets</h4>
+    <div *ngIf="tickets.length === 0">No tickets found for this company.</div>
+    <ag-grid-angular
+      *ngIf="tickets.length > 0"
+      class="ag-theme-alpine"
+      style="width: 100%;"
+      [modules]="modules"
+      [rowData]="tickets"
+      [columnDefs]="ticketColumnDefs"
+      [pagination]="true"
+      [defaultColDef]="defaultColDef"
+      domLayout="autoHeight"
+      (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+  </div>
+
+  <!-- 🔹 Subscriptions Tab -->
+  <div *ngIf="selectedTab === Tabs.Subscriptions" class="box">
+    <h4>Project Subscriptions</h4>
+    <div *ngIf="subscriptions.length === 0">No subscriptions found.</div>
+    <ag-grid-angular
+      *ngIf="subscriptions.length > 0"
+      class="ag-theme-alpine"
+      style="width: 100%;"
+      [modules]="modules"
+      [rowData]="subscriptions"
+      [columnDefs]="subscriptionColumnDefs"
+      [pagination]="true"
+      [defaultColDef]="defaultColDef"
+      domLayout="autoHeight"
+      (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+  </div>
+</div>
